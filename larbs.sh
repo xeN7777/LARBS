@@ -6,8 +6,8 @@
 
 ### OPTIONS AND VARIABLES ###
 
-dotfilesrepo="https://github.com/lukesmithxyz/voidrice.git"
-progsfile="https://raw.githubusercontent.com/LukeSmithxyz/LARBS/master/progs.csv"
+dotfilesrepo="https://github.com/xen7777/dotfiles.git"
+progsfile="https://raw.githubusercontent.com/xen7777/LARBS/master/progs.csv"
 aurhelper="yay"
 repobranch="master"
 
@@ -66,7 +66,7 @@ preinstallmsg() {
 adduserandpass() {
 	# Adds user `$name` with password $pass1.
 	whiptail --infobox "Adding user \"$name\"..." 7 50
-	useradd -m -g wheel -s /bin/zsh "$name" >/dev/null 2>&1 ||
+	useradd -m -g wheel -s /bin/fish "$name" >/dev/null 2>&1 ||
 		usermod -a -G wheel "$name" && mkdir -p /home/"$name" && chown "$name":wheel /home/"$name"
 	export repodir="/home/$name/.local/src"
 	mkdir -p "$repodir"
@@ -231,7 +231,7 @@ preinstallmsg || error "User exited."
 refreshkeys ||
 	error "Error automatically refreshing Arch keyring. Consider doing so manually."
 
-for x in curl ca-certificates base-devel git ntp zsh; do
+for x in curl ca-certificates base-devel git ntp fish; do
 	whiptail --title "LARBS Installation" \
 		--infobox "Installing \`$x\` which is required to install and configure other programs." 8 70
 	installpkg "$x"
@@ -239,7 +239,7 @@ done
 
 whiptail --title "LARBS Installation" \
 	--infobox "Synchronizing system time to ensure successful and secure installation of software..." 8 70
-ntpdate 0.us.pool.ntp.org >/dev/null 2>&1
+ntpdate 0.europe.pool.ntp.org >/dev/null 2>&1
 
 adduserandpass || error "Error adding username and/or password."
 
@@ -277,9 +277,9 @@ rm -rf "/home/$name/.git/" "/home/$name/README.md" "/home/$name/LICENSE" "/home/
 rmmod pcspkr
 echo "blacklist pcspkr" >/etc/modprobe.d/nobeep.conf
 
-# Make zsh the default shell for the user.
-chsh -s /bin/zsh "$name" >/dev/null 2>&1
-sudo -u "$name" mkdir -p "/home/$name/.cache/zsh/"
+# Make fish the default shell for the user.
+chsh -s /usr/bin/fish "$name" >/dev/null 2>&1
+sudo -u "$name" mkdir -p "/home/$name/.cache/fish/"
 sudo -u "$name" mkdir -p "/home/$name/.config/abook/"
 sudo -u "$name" mkdir -p "/home/$name/.config/mpd/playlists/"
 
